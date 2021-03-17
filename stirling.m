@@ -7,7 +7,8 @@ x = 1.22;
 % x=0.25;
 X = [0 0.5 1.0 1.5 2.0];
 % X = [0.1 0.2 0.3 0.4];
-Y = [0 0.191 0.341 0.433 0.477];
+% Y = [0 0.191 0.341 0.433 0.477];
+Y = sin(X);
 % Y = [0.3162 0.4472 0.5477 0.6325];
 dt = zeros(length(X), length(X) + 1);
 
@@ -38,9 +39,12 @@ if (t==(length(X)+1)/2) && (rem(length(X),2)~=0)
     f = StirlingMethod(Y,length(X),t,p);
 end
 
+% error
+error=abs(f-x)
+
 get(0, 'ScreenSize')
-f = figure;
-table = uitable(f,'Data',dt,'Position',[20 20 262 204]);
+fig = figure;
+table = uitable(fig,'Data',dt,'Position',[20 20 262 204]);
 
 % Select cell programmatically
 jUIScrollPane = findjobj(table);
@@ -53,12 +57,12 @@ jUITable.changeSelection(x0Index-1,1, true, false);
 temp = 1;
 for i = 1: length(X) + 1
     vaues(i,2)
-    i
+%     i
     if i == length(X) + 1
-        row_index = find(dt(:,i)==vaues(i,2))
+        row_index = find(dt(:,i)==vaues(i,2));
     else
         if length(X) + 1 > i+2
-            row_index = find(dt(:,i+2)==vaues(i,2))
+            row_index = find(dt(:,i+2)==vaues(i,2));
         end
     end
     
@@ -78,6 +82,10 @@ end
 
 %   jUITable.changeSelection(3,4, true, false);
 %   jUITable.changeSelection(2,5, true, false);
+
+% function Y = getY(x)
+%     for i = 1:length(x)
+% end
 
 
 function f = StirlingMethod(y,n,t,p)
