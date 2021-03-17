@@ -2,8 +2,9 @@ clear all;
 clc;
 close all;
 
-x = 1.22;
-
+prompt = 'Enter value of x: ';
+x = input(prompt)
+% x=1.22;
 % x=0.25;
 X = [0 0.5 1.0 1.5 2.0];
 % X = [0.1 0.2 0.3 0.4];
@@ -42,22 +43,20 @@ end
 % error
 error=abs(f-x)
 
-get(0, 'ScreenSize')
+% Select cell programmatically
 fig = figure;
 table = uitable(fig,'Data',dt,'Position',[20 20 262 204]);
+table.Position = [350 350 table.Extent(3) table.Extent(4)];
 
-% Select cell programmatically
 jUIScrollPane = findjobj(table);
 jUITable = jUIScrollPane.getViewport.getView;
 
 hightLightStartColumns = 2;
 jUITable.changeSelection(x0Index-1,0, true, false);
 jUITable.changeSelection(x0Index-1,1, true, false);
-% vaues
 temp = 1;
 for i = 1: length(X) + 1
     vaues(i,2)
-%     i
     if i == length(X) + 1
         row_index = find(dt(:,i)==vaues(i,2));
     else
@@ -69,23 +68,13 @@ for i = 1: length(X) + 1
     temp = row_index;
     if(isempty(row_index) == 0)
         if rem(i,2)~=0
-    %         i    
             jUITable.changeSelection((temp-2),i+1, true, false);
             jUITable.changeSelection((temp-1),i+1, true, false);
         else
-    %         i
             jUITable.changeSelection((temp-1),i+1, true, false);
         end
-    end
-        
+    end  
 end
-
-%   jUITable.changeSelection(3,4, true, false);
-%   jUITable.changeSelection(2,5, true, false);
-
-% function Y = getY(x)
-%     for i = 1:length(x)
-% end
 
 
 function f = StirlingMethod(y,n,t,p)
@@ -96,9 +85,6 @@ global vaues;
     for i=1:n-1
         d = diff(y,i);
         if rem(i,2)~=0
-%             i
-%             vala = d(t-j)
-%             valb = d(t-(j+1))
             tempArr = [i d(t-j)];
             vaues = [vaues; tempArr];
             tempArr = [i d(t-(j+1))];
@@ -107,9 +93,6 @@ global vaues;
             f = f+k*(1/factorial(i))*(d(t-j)+d(t-(j+1)))/2;
             j = j+1;
         else
-
-%             i
-%             valc = d(t-j)
             tempArr = [i d(t-j)];
             vaues = [vaues; tempArr];
             f = f+p*k*(1/factorial(i))*d(t-j);
